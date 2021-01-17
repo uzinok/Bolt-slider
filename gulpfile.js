@@ -44,7 +44,7 @@ const copy = () => {
   return src([
       'src/fonts/*.+(woff|woff2|ttf)*',
       'src/img/*.+(png|jpg|svg|webp|ico|gif|JPG)*',
-      'src/favicon.ico'
+      'src/favicon.ico',
     ], {
       base: 'src'
     })
@@ -68,7 +68,7 @@ exports.copy_css = copy_css;
  * less
  */
 const lessToCss = () => {
-  return src('src/less/style.less')
+  return src('src/less/bolt-slider.less')
     .pipe(plumber({
       errorHandler: notify.onError(function (err) {
         return {
@@ -77,7 +77,6 @@ const lessToCss = () => {
         }
       })
     }))
-    .pipe(sourcemaps.init())
     .pipe(less())
     .pipe(autoprefixer({
       grid: true,
@@ -85,7 +84,6 @@ const lessToCss = () => {
     }))
     .pipe(gcmq())
     .pipe(csso())
-    .pipe(sourcemaps.write())
     .pipe(dest('build/css'))
     .pipe(browserSync.stream());
 }
@@ -120,7 +118,7 @@ exports.htmlTo = htmlTo;
  * scripts
  */
 // const scripts = () => {
-//   return src('./src/js/main.js')
+//   return src('./src/js/BoltSlider.js')
 //     .pipe(plumber({
 //       errorHandler: notify.onError(function (err) {
 //         return {
@@ -131,7 +129,7 @@ exports.htmlTo = htmlTo;
 //     }))
 //     .pipe(webpackStream({
 //       output: {
-//         filename: 'main.js',
+//         filename: 'BoltSlider.js',
 //       },
 //       module: {
 //         rules: [{
@@ -152,9 +150,8 @@ exports.htmlTo = htmlTo;
 //     .pipe(browserSync.stream());
 // }
 // exports.scripts = scripts;
-
 const scripts = () => {
-  return src('src/js/*.js')
+  return src('src/js/BoltSlider.js')
     .pipe(plumber({
       errorHandler: notify.onError(function (err) {
         return {
@@ -163,8 +160,7 @@ const scripts = () => {
         }
       })
     }))
-    .pipe(sourcemaps.init())
-    .pipe(concat('main.js', {
+    .pipe(concat('BoltSlider.js', {
       newLine: ';'
     }))
     .pipe(babel({
@@ -177,7 +173,6 @@ const scripts = () => {
       },
       exclude: ['tasks']
     }))
-    .pipe(sourcemaps.write())
     .pipe(dest('build/js'))
     .pipe(browserSync.stream());
 }
@@ -291,7 +286,7 @@ exports.fonts = fonts;
  */
 
 const lessToCssBuild = () => {
-  return src('src/less/style.less')
+  return src('src/less/bolt-slider.less')
     .pipe(less())
     .pipe(autoprefixer({
       grid: true,
@@ -306,47 +301,29 @@ exports.lessToCssBuild = lessToCssBuild;
 /**
  * scripts to build
  */
+
 const scriptsBuild = () => {
-  return src('src/js/*.js')
-    .pipe(concat('main.js', {
-      newLine: ';'
-    }))
-    .pipe(babel({
-      presets: ['@babel/preset-env']
-    }))
-    .pipe(minify({
-      ext: {
-        src: '.js',
-        min: '.min.js'
+  return src('./src/js/BoltSlider.js')
+    .pipe(webpackStream({
+      output: {
+        filename: 'BoltSlider.js',
       },
-      exclude: ['tasks']
+      module: {
+        rules: [{
+          test: /\.m?js$/,
+          exclude: /(node_modules|bower_components)/,
+          use: {
+            loader: 'babel-loader',
+            options: {
+              presets: ['@babel/preset-env']
+            }
+          }
+        }]
+      }
     }))
-    .pipe(dest('build/js'))
+    .pipe(dest('build/js'));
 }
 exports.scriptsBuild = scriptsBuild;
-
-// const scriptsBuild = () => {
-//   return src('./src/js/main.js')
-//     .pipe(webpackStream({
-//       output: {
-//         filename: 'main.js',
-//       },
-//       module: {
-//         rules: [{
-//           test: /\.m?js$/,
-//           exclude: /(node_modules|bower_components)/,
-//           use: {
-//             loader: 'babel-loader',
-//             options: {
-//               presets: ['@babel/preset-env']
-//             }
-//           }
-//         }]
-//       }
-//     }))
-//     .pipe(dest('build/js'));
-// }
-// exports.scriptsBuild = scriptsBuild;
 
 /**
  * html to build
