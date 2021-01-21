@@ -16,7 +16,7 @@ class BoltSlider {
         // width sliderList
         this.responze = options.responze || false;
         this.countSlideWiev = options.countSlideWiev || this.getCountSlideWiev() || 1;
-        // this.infinite = options.infinite || false;
+        this.infinite = options.infinite || false;
 
         // controll list
         this.controllOff = options.controllOff || false;
@@ -70,6 +70,14 @@ BoltSlider.prototype.sliderInint = function () {
         }
         obj.getWidthSlider();
     }
+
+    // infinite
+    console.log(this.countSlideWiev)
+    if(this.countSlideWiev == 1 && this.infinite) {
+        this.createInfinite();
+        this.countSlide += 2;
+        this.getWidthSlider();
+    }
 }
 
 BoltSlider.prototype.checkControll = function () {
@@ -96,6 +104,22 @@ BoltSlider.prototype.getCountSlideWiev = function () {
     return this.countSlideWiev;
 }
 // \init
+
+// infinite
+BoltSlider.prototype.createInfinite = function () {
+    let firstLi = document.createElement('li');
+    firstLi.innerHTML = this.slides[this.slides.length - 1].innerHTML;
+    firstLi.setAttribute('class', this.slides[this.slides.length - 1].getAttribute('class'));
+
+    let lastLi = document.createElement('li');
+    lastLi.innerHTML = this.slides[0].innerHTML;
+    lastLi.setAttribute('class', this.slides[0].getAttribute('class'));
+    
+    console.log(lastLi)
+    this.slider.insertBefore(firstLi, this.slides[0]);
+    this.slider.appendChild(lastLi);
+}
+// \infinite
 
 // controll
 BoltSlider.prototype.drawControll = function () {
