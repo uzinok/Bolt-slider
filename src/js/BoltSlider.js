@@ -16,7 +16,10 @@ class BoltSlider {
         this.responze = options.responze || false;
         this.countSlideWiev = options.countSlideWiev || this.getCountSlideWiev() || 1;
         this.currentSlideNumber = options.currentSlideNumber || 0;
+
         this.adaptiveHeight = options.adaptiveHeight || false;
+
+        this.speed = options.speed || 200;
 
         // infinite
         this.infinite = options.infinite || false;
@@ -83,8 +86,6 @@ BoltSlider.prototype.sliderInint = function () {
 
     if (this.countSlideWiev == 1 && this.lastLi && this.infiniteView) {
         this.infiniteView = true;
-        this.firstLi.hidden = false;
-        this.lastLi.hidden = false;
         this.countSlide = this.slides.length + 2;
         this.currentSlideNumber++;
     }
@@ -114,7 +115,7 @@ BoltSlider.prototype.checkControllInfinite = function () {
             this.getWidthSlider();
             this.controllList.hidden = false;
             this.getWidthSlider();
-            this.drawSlide();
+            this.actionSlide();
         }
     }
 }
@@ -188,30 +189,60 @@ BoltSlider.prototype.drawControll = function () {
     this.parentBlock.appendChild(this.controllList);
 
     this.btnNext.addEventListener('click', btnNextClick.bind(null, this))
-    function btnNextClick (obj) {
+
+    function btnNextClick(obj) {
         obj.nextSlider();
     }
 
     this.btnPrev.addEventListener('click', btnPrevClick.bind(null, this))
-    function btnPrevClick (obj) {
+
+    function btnPrevClick(obj) {
         obj.prevSlider();
     }
 }
 
 // \controll
 
-// drawSlide
+// actionSlide
 BoltSlider.prototype.nextSlider = function () {
-    this.currentSlideNumber++;
-    this.drawSlide();
+
+    this.slider.style.transition = `transform ${this.speed}ms linear 0ms`;
+
+    if (this.infiniteView && (this.currentSlideNumber++) >= (this.countSlide - 2)) {
+
+        this.actionSlide();
+        setTimeout(nullCurrentSlideNumber.bind(null, this), this.speed)
+
+    } else if ((this.currentSlideNumber + this.countSlideWiev) >= (this.countSlide - 1) && !this.infiniteView) {
+
+        this.currentSlideNumber += this.countSlideWiev;
+        console.log(this.countSlideWiev)
+        this.actionSlide();
+        this.btnNext.disabled = true;
+
+    } else {
+
+        this.currentSlideNumber = this.currentSlideNumber + this.countSlideWiev;
+        this.actionSlide();
+
+    }
+
+    function nullCurrentSlideNumber(obj) {
+        obj.currentSlideNumber = 1;
+        obj.slider.style.transition = `transform 0ms linear 0ms`;
+        obj.actionSlide();
+    }
 }
 BoltSlider.prototype.prevSlider = function () {
+    if (this.btnNext.disabled) {
+        this.btnNext.disabled = false;
+    }
     this.currentSlideNumber--;
-    this.drawSlide();
+    this.actionSlide();
 }
 
-BoltSlider.prototype.drawSlide = function () {
-    console.log(`translateX(-${this.widthSlide * this.currentSlideNumber}px)`)
+BoltSlider.prototype.actionSlide = function () {
+    console.log(this.currentSlideNumber)
     this.slider.style.transform = `translateX(-${this.widthSlide * this.currentSlideNumber}px)`;
 }
-// \drawSlide
+// \actionSlide
