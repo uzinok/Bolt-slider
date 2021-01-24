@@ -186,11 +186,32 @@ BoltSlider.prototype.drawControll = function () {
     this.controllList.appendChild(li1);
 
     this.parentBlock.appendChild(this.controllList);
+
+    this.btnNext.addEventListener('click', btnNextClick.bind(null, this))
+    function btnNextClick (obj) {
+        obj.nextSlider();
+    }
+
+    this.btnPrev.addEventListener('click', btnPrevClick.bind(null, this))
+    function btnPrevClick (obj) {
+        obj.prevSlider();
+    }
 }
+
 // \controll
 
 // drawSlide
+BoltSlider.prototype.nextSlider = function () {
+    this.currentSlideNumber++;
+    this.drawSlide();
+}
+BoltSlider.prototype.prevSlider = function () {
+    this.currentSlideNumber--;
+    this.drawSlide();
+}
+
 BoltSlider.prototype.drawSlide = function () {
+    console.log(`translateX(-${this.widthSlide * this.currentSlideNumber}px)`)
     this.slider.style.transform = `translateX(-${this.widthSlide * this.currentSlideNumber}px)`;
 }
 // \drawSlide
