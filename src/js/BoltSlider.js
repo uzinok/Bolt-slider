@@ -29,10 +29,12 @@ class BoltSlider {
         this.controllClass = options.controllClass || false;
         this.controllAria = options.controllAria || 'Gallery controls';
 
+        this.btnNext = '';
         this.btnNextClass = options.btnNextClass || false;
         this.btnNextText = options.btnNextText || false;
         this.btnNextAria = options.btnNextAria || 'Next';
 
+        this.btnPrev = '';
         this.btnPrevClass = options.btnPrevClass || false;
         this.btnPrevText = options.btnPrevText || false;
         this.btnPrevAria = options.btnPrevAria || 'Previous';
@@ -77,7 +79,6 @@ BoltSlider.prototype.sliderInint = function () {
                 obj.checkControllInfinite();
             }
         }
-        obj.getWidthSlider();
     }
 
     if (this.countSlideWiev == 1 && this.lastLi && this.infiniteView) {
@@ -107,13 +108,15 @@ BoltSlider.prototype.checkControllInfinite = function () {
         }
         if (this.countSlideWiev >= this.countSlide) {
             this.controllList.hidden = true;
+            this.slider.style.transform = '';
+            this.slider.style.width = '';
         } else if (this.countSlideWiev < this.countSlide) {
+            this.getWidthSlider();
             this.controllList.hidden = false;
+            this.getWidthSlider();
+            this.drawSlide();
         }
     }
-    this.getWidthSlider();
-
-    this.drawSlide();
 }
 
 BoltSlider.prototype.getWidthSlider = function () {
@@ -156,30 +159,30 @@ BoltSlider.prototype.drawControll = function () {
     this.controllList.setAttribute('aria-label', this.controllAria);
 
     let li = document.createElement('li');
-    let btnNext = document.createElement('button');
+    this.btnNext = document.createElement('button');
     if (this.btnNextClass) {
-        btnNext.classList.add(this.btnNextClass);
+        this.btnNext.classList.add(this.btnNextClass);
     }
     if (this.btnNextText) {
-        btnNext.innerHTML = this.btnNextText;
+        this.btnNext.innerHTML = this.btnNextText;
     } else {
-        btnNext.setAttribute('aria-label', this.btnNextAria);
+        this.btnNext.setAttribute('aria-label', this.btnNextAria);
     }
 
     let li1 = document.createElement('li');
-    let btnPrev = document.createElement('button');
+    this.btnPrev = document.createElement('button');
     if (this.btnPrevClass) {
-        btnPrev.classList.add(this.btnPrevClass);
+        this.btnPrev.classList.add(this.btnPrevClass);
     }
     if (this.btnPrevText) {
-        btnPrev.innerHTML = this.btnPrevText;
+        this.btnPrev.innerHTML = this.btnPrevText;
     } else {
-        btnPrev.setAttribute('aria-label', this.btnPrevAria);
+        this.btnPrev.setAttribute('aria-label', this.btnPrevAria);
     }
 
-    li.appendChild(btnNext);
+    li.appendChild(this.btnNext);
     this.controllList.appendChild(li);
-    li1.appendChild(btnPrev);
+    li1.appendChild(this.btnPrev);
     this.controllList.appendChild(li1);
 
     this.parentBlock.appendChild(this.controllList);
@@ -188,7 +191,6 @@ BoltSlider.prototype.drawControll = function () {
 
 // drawSlide
 BoltSlider.prototype.drawSlide = function () {
-    console.log(this.currentSlideNumber)
     this.slider.style.transform = `translateX(-${this.widthSlide * this.currentSlideNumber}px)`;
 }
 // \drawSlide
