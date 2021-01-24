@@ -7,16 +7,19 @@ class BoltSlider {
             options = {};
         }
 
+        // init
         this.slides = this.slider.querySelectorAll('.bolt-slider__item');
-        // count slide
         this.countSlide = this.slides.length;
-
-        // parent block
         this.parentBlock = this.slider.parentNode;
-        // width sliderList
+
         this.responze = options.responze || false;
         this.countSlideWiev = options.countSlideWiev || this.getCountSlideWiev() || 1;
+
+        // infinite
         this.infinite = options.infinite || false;
+        this.infiniteView = false;
+        this.firstLi = false;
+        this.lastLi = false;
 
         // controll list
         this.controllOff = options.controllOff || false;
@@ -36,7 +39,11 @@ class BoltSlider {
         this.interactiveCSS = `a[href]:not([tabindex='-1']), area[href]:not([tabindex='-1']), input:not([disabled]):not([tabindex='-1']), select:not([disabled]):not([tabindex='-1']), textarea:not([disabled]):not([tabindex='-1']), button:not([disabled]):not([tabindex='-1']), iframe:not([tabindex='-1']), [tabindex]:not([tabindex='-1']), [contentEditable=true]:not([tabindex='-1'])`;
 
         // init slider
+        if (this.infinite) {
+            this.createInfinite();
+        }
         this.sliderInint();
+        this.checkControllInfinite();
     }
 }
 
@@ -55,7 +62,6 @@ BoltSlider.prototype.sliderInint = function () {
     // controll
     if (!this.controllOff) {
         this.drawControll();
-        this.checkControll();
     }
 
     // resize
@@ -65,23 +71,27 @@ BoltSlider.prototype.sliderInint = function () {
         if (obj.responze) {
             obj.getCountSlideWiev();
             if (!obj.controllOff) {
-                obj.checkControll();
+                obj.checkControllInfinite();
             }
         }
         obj.getWidthSlider();
     }
-
-    // infinite
-    console.log(this.countSlideWiev)
-    if(this.countSlideWiev == 1 && this.infinite) {
-        this.createInfinite();
-        this.countSlide += 2;
-        this.getWidthSlider();
-    }
 }
 
-BoltSlider.prototype.checkControll = function () {
+BoltSlider.prototype.checkControllInfinite = function () {
+
     if (this.responze) {
+        if (this.countSlideWiev > 1 && this.lastLi) {
+            this.infiniteView = false;
+            this.firstLi.hidden = true;
+            this.lastLi.hidden = true;
+            this.countSlide = this.slides.length;
+        } else if (this.countSlideWiev == 1 && this.lastLi) {
+            this.infiniteView = true;
+            this.firstLi.hidden = false;
+            this.lastLi.hidden = false;
+            this.countSlide = this.slides.length + 2;
+        }
         if (this.countSlideWiev >= this.countSlide) {
             this.controllList.hidden = true;
         } else if (this.countSlideWiev < this.countSlide) {
@@ -107,17 +117,17 @@ BoltSlider.prototype.getCountSlideWiev = function () {
 
 // infinite
 BoltSlider.prototype.createInfinite = function () {
-    let firstLi = document.createElement('li');
-    firstLi.innerHTML = this.slides[this.slides.length - 1].innerHTML;
-    firstLi.setAttribute('class', this.slides[this.slides.length - 1].getAttribute('class'));
+    this.infiniteView = true;
+    this.firstLi = document.createElement('li');
+    this.firstLi.innerHTML = this.slides[this.slides.length - 1].innerHTML;
+    this.firstLi.setAttribute('class', this.slides[this.slides.length - 1].getAttribute('class'));
 
-    let lastLi = document.createElement('li');
-    lastLi.innerHTML = this.slides[0].innerHTML;
-    lastLi.setAttribute('class', this.slides[0].getAttribute('class'));
-    
-    console.log(lastLi)
-    this.slider.insertBefore(firstLi, this.slides[0]);
-    this.slider.appendChild(lastLi);
+    this.lastLi = document.createElement('li');
+    this.lastLi.innerHTML = this.slides[0].innerHTML;
+    this.lastLi.setAttribute('class', this.slides[0].getAttribute('class'));
+
+    this.slider.insertBefore(this.firstLi, this.slides[0]);
+    this.slider.appendChild(this.lastLi);
 }
 // \infinite
 

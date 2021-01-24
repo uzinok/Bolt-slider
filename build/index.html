@@ -38,8 +38,53 @@
       width: 100%;
       height: 100%;
       background-color: rgba(0, 0, 0, 0.1);
-    }</style></head><body><header><h1>Bolt-slider - слайдер для сайта</h1></header><main><section style="display: none;"><h2>Чек-лист</h2><ol><li>+ Адаптивный</li><li>+ Возможность включить адаптивную высоту слайдера</li><li>+ Возможность добавления классов(атрибутов) элементам управления</li><li>+ Возможность добавления своего содержимого элементам управления</li><li>+ Возможность отключения слайдера в зависимлсти от ширины экрана</li><li>+ Возможность включения нескольких слайдов</li><li>+ Зацикленность слайдера (опционально)</li><li>+ При ресайзе показывать максимальное количество слайдов</li><li>+ Возможность управления стилями показываемых слайдов</li><li>+ Отключение слайдера когда недостаточно слайдов</li><li>+ Удобный доступ с клавиатуры</li><li>+ Удобный доступ на мобильных устройствах</li><li>+ Листание слайдов движением пальца</li><li>+ не листать при простом касании слайдов(при случайном небольшом сдвиге быстро (с анимацией) вернуть на место слайд)</li><li>+ Настраиваемая анимация</li><li>+ Ленивая загрузка графики</li><li>+ Доступность для сринридера</li><li>Расширяемый класс</li></ol></section><section><h2>Пример слайдера по умолчанию</h2><ul class="bolt-slider bolt-slider--1" aria-label="галерея"><li class="bolt-slider__item"><img src="img/1.jpg" alt="pic"><p>Далеко-далеко за словесными горами в стране.</p></li><li class="bolt-slider__item"><img src="img/2.jpg" alt="pic"><p>Далеко-далеко за словесными горами в стране гласных и согласных живут, рыбные тексты. Его все над пустился живет.</p></li><li class="bolt-slider__item"><img src="img/3.jpg" alt="pic"><p>Далеко-далеко за словесными горами в стране.</p></li><li class="bolt-slider__item"><img src="img/4.jpg" alt="pic"><p>Далеко-далеко за словесными горами в стране гласных и согласных живут, рыбные тексты. Его все над пустился живет.</p></li><li class="bolt-slider__item"><img src="img/5.jpg" alt="pic"><p>Далеко-далеко за словесными горами в стране.</p></li><li class="bolt-slider__item"><img src="img/6.jpg" alt="pic"><p>Далеко-далеко за словесными горами в стране гласных и согласных живут, рыбные тексты. Его все над пустился живет.</p></li><li class="bolt-slider__item"><img src="img/7.jpg" alt="pic"><p>Далеко-далеко за словесными горами в стране.</p></li><li class="bolt-slider__item"><img src="img/8.jpg" alt="pic"><p>Далеко-далеко за словесными горами в стране гласных и согласных живут, рыбные тексты. Его все над пустился живет.</p></li></ul></section><section><h2>Пример слайдера c параметрами</h2><ul class="bolt-slider bolt-slider--2" aria-label="галерея"><li class="bolt-slider__item"><img src="img/1.jpg" alt="pic"><p>Далеко-далеко за словесными горами в стране.</p></li><li class="bolt-slider__item"><img src="img/2.jpg" alt="pic"><p>Далеко-далеко за словесными горами в стране гласных и согласных живут, рыбные тексты. Его все над пустился живет.</p></li><li class="bolt-slider__item"><img src="img/3.jpg" alt="pic"><p>Далеко-далеко за словесными горами в стране.</p></li></ul></section></main><link rel="stylesheet" href="./css/bolt-slider.css"><script src="./js/BoltSlider.js"></script><script>window.onload = function () {
-      let slider1 = new BoltSlider(document.querySelector('.bolt-slider--1'));
+    }
+    .bolt-slider__item,
+    .bolt-slider {
+      box-shadow: 0 0 2px #000 inset;
+    }</style></head><body><header><h1>Bolt-slider - слайдер для сайта</h1></header><main><section style="display: none;"><h2>Чек-лист</h2><ol><li>+ Адаптивный</li><li>+ Возможность включить адаптивную высоту слайдера</li><li>+ Возможность добавления классов(атрибутов) элементам управления</li><li>+ Возможность добавления своего содержимого элементам управления</li><li>+ Возможность отключения слайдера в зависимлсти от ширины экрана</li><li>+ Возможность включения нескольких слайдов</li><li>+ Зацикленность слайдера (опционально)</li><li>+ При ресайзе показывать максимальное количество слайдов</li><li>+ Возможность управления стилями показываемых слайдов</li><li>+ Отключение слайдера когда недостаточно слайдов</li><li>+ Удобный доступ с клавиатуры</li><li>+ Удобный доступ на мобильных устройствах</li><li>+ Листание слайдов движением пальца</li><li>+ не листать при простом касании слайдов(при случайном небольшом сдвиге быстро (с анимацией) вернуть на место слайд)</li><li>+ Настраиваемая анимация</li><li>+ Ленивая загрузка графики</li><li>+ Доступность для сринридера</li><li>Расширяемый класс</li></ol></section><!-- <section>
+      <h2>Пример слайдера по умолчанию</h2>
+
+      <ul class="bolt-slider bolt-slider--1" aria-label="галерея">
+        <li class="bolt-slider__item">
+          <img src="img/1.jpg" alt="pic">
+          <p>Далеко-далеко за словесными горами в стране.</p>
+        </li>
+        <li class="bolt-slider__item">
+          <img src="img/2.jpg" alt="pic">
+          <p>Далеко-далеко за словесными горами в стране гласных и согласных живут, рыбные тексты. Его все над пустился
+            живет.</p>
+        </li>
+        <li class="bolt-slider__item">
+          <img src="img/3.jpg" alt="pic">
+          <p>Далеко-далеко за словесными горами в стране.</p>
+        </li>
+        <li class="bolt-slider__item">
+          <img src="img/4.jpg" alt="pic">
+          <p>Далеко-далеко за словесными горами в стране гласных и согласных живут, рыбные тексты. Его все над пустился
+            живет.</p>
+        </li>
+        <li class="bolt-slider__item">
+          <img src="img/5.jpg" alt="pic">
+          <p>Далеко-далеко за словесными горами в стране.</p>
+        </li>
+        <li class="bolt-slider__item">
+          <img src="img/6.jpg" alt="pic">
+          <p>Далеко-далеко за словесными горами в стране гласных и согласных живут, рыбные тексты. Его все над пустился
+            живет.</p>
+        </li>
+        <li class="bolt-slider__item">
+          <img src="img/7.jpg" alt="pic">
+          <p>Далеко-далеко за словесными горами в стране.</p>
+        </li>
+        <li class="bolt-slider__item">
+          <img src="img/8.jpg" alt="pic">
+          <p>Далеко-далеко за словесными горами в стране гласных и согласных живут, рыбные тексты. Его все над пустился
+            живет.</p>
+        </li>
+      </ul>
+
+    </section> --><section><h2>Пример слайдера c параметрами</h2><ul class="bolt-slider bolt-slider--2" aria-label="галерея"><li class="bolt-slider__item"><img src="img/1.jpg" alt="pic"><p>Далеко-далеко за словесными горами в стране.</p></li><li class="bolt-slider__item"><img src="img/2.jpg" alt="pic"><p>Далеко-далеко за словесными горами в стране гласных и согласных живут, рыбные тексты. Его все над пустился живет.</p></li><li class="bolt-slider__item"><img src="img/3.jpg" alt="pic"><p>Далеко-далеко за словесными горами в стране.</p></li></ul></section></main><link rel="stylesheet" href="./css/bolt-slider.css"><script src="./js/BoltSlider.js"></script><script>window.onload = function () {
 
       let slider2 = new BoltSlider(document.querySelector('.bolt-slider--2'), {
         responze: {
@@ -57,4 +102,6 @@
         btnPrevClass: 'my-class',
         btnPrevAria: 'предидущий слайд'
       });
+      
+      // let slider1 = new BoltSlider(document.querySelector('.bolt-slider--1'));
     }</script></body></html>

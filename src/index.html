@@ -48,6 +48,10 @@
       height: 100%;
       background-color: rgba(0, 0, 0, 0.1);
     }
+    .bolt-slider__item,
+    .bolt-slider {
+      box-shadow: 0 0 2px #000 inset;
+    }
   </style>
 </head>
 
@@ -81,7 +85,7 @@
       </ol>
     </section>
 
-    <section>
+    <!-- <section>
       <h2>Пример слайдера по умолчанию</h2>
 
       <ul class="bolt-slider bolt-slider--1" aria-label="галерея">
@@ -123,7 +127,7 @@
         </li>
       </ul>
 
-    </section>
+    </section> -->
 
     <section>
       <h2>Пример слайдера c параметрами</h2>
@@ -151,7 +155,6 @@
   <script src="./js/BoltSlider.js"></script>
   <script>
     window.onload = function () {
-      let slider1 = new BoltSlider(document.querySelector('.bolt-slider--1'));
 
       let slider2 = new BoltSlider(document.querySelector('.bolt-slider--2'), {
         responze: {
@@ -169,6 +172,8 @@
         btnPrevClass: 'my-class',
         btnPrevAria: 'предидущий слайд'
       });
+      
+      // let slider1 = new BoltSlider(document.querySelector('.bolt-slider--1'));
     }
   </script>
 
