@@ -2,18 +2,21 @@ class BoltSlider {
     constructor(slider, options = null) {
 
         // slider list
-        this.slider = slider;
         if (options === null) {
             options = {};
         }
 
         // init
+        this.slider = slider;
         this.slides = this.slider.querySelectorAll('.bolt-slider__item');
         this.countSlide = this.slides.length;
         this.parentBlock = this.slider.parentNode;
+        this.widthSlide = 0;
 
         this.responze = options.responze || false;
         this.countSlideWiev = options.countSlideWiev || this.getCountSlideWiev() || 1;
+        this.currentSlideNumber = options.currentSlideNumber || 0;
+        this.adaptiveHeight = options.adaptiveHeight || false;
 
         // infinite
         this.infinite = options.infinite || false;
@@ -76,21 +79,31 @@ BoltSlider.prototype.sliderInint = function () {
         }
         obj.getWidthSlider();
     }
+
+    if (this.countSlideWiev == 1 && this.lastLi && this.infiniteView) {
+        this.infiniteView = true;
+        this.firstLi.hidden = false;
+        this.lastLi.hidden = false;
+        this.countSlide = this.slides.length + 2;
+        this.currentSlideNumber++;
+    }
 }
 
 BoltSlider.prototype.checkControllInfinite = function () {
 
     if (this.responze) {
-        if (this.countSlideWiev > 1 && this.lastLi) {
+        if (this.countSlideWiev > 1 && this.lastLi && this.infiniteView) {
             this.infiniteView = false;
             this.firstLi.hidden = true;
             this.lastLi.hidden = true;
             this.countSlide = this.slides.length;
-        } else if (this.countSlideWiev == 1 && this.lastLi) {
+            this.currentSlideNumber--;
+        } else if (this.countSlideWiev == 1 && this.lastLi && !this.infiniteView) {
             this.infiniteView = true;
             this.firstLi.hidden = false;
             this.lastLi.hidden = false;
             this.countSlide = this.slides.length + 2;
+            this.currentSlideNumber++;
         }
         if (this.countSlideWiev >= this.countSlide) {
             this.controllList.hidden = true;
@@ -99,10 +112,13 @@ BoltSlider.prototype.checkControllInfinite = function () {
         }
     }
     this.getWidthSlider();
+
+    this.drawSlide();
 }
 
 BoltSlider.prototype.getWidthSlider = function () {
     this.slider.style.width = (this.parentBlock.offsetWidth / this.countSlideWiev) * this.countSlide + 'px';
+    this.widthSlide = this.parentBlock.offsetWidth / this.countSlideWiev;
 }
 
 BoltSlider.prototype.getCountSlideWiev = function () {
@@ -166,6 +182,13 @@ BoltSlider.prototype.drawControll = function () {
     li1.appendChild(btnPrev);
     this.controllList.appendChild(li1);
 
-    this.parentBlock.appendChild(this.controllList)
+    this.parentBlock.appendChild(this.controllList);
 }
 // \controll
+
+// drawSlide
+BoltSlider.prototype.drawSlide = function () {
+    console.log(this.currentSlideNumber)
+    this.slider.style.transform = `translateX(-${this.widthSlide * this.currentSlideNumber}px)`;
+}
+// \drawSlide
